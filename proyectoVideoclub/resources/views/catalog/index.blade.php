@@ -13,7 +13,6 @@
 		</a>
 	</div>
 	@endforeach
-	{{$pelicula}}
 </div>
 
 @stop

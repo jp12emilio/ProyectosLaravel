@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Movie;
+use App\User;
 
 class DatabaseSeeder extends Seeder {
     private $arrayPeliculas = array(
@@ -166,12 +167,35 @@ class DatabaseSeeder extends Seeder {
 			'synopsis' => 'Un joven hastiado de su gris y monótona vida lucha contra el insomnio. En un viaje en avión conoce a un carismático vendedor de jabón que sostiene una teoría muy particular: el perfeccionismo es cosa de gentes débiles; sólo la autodestrucción hace que la vida merezca la pena. Ambos deciden entonces fundar un club secreto de lucha, donde poder descargar sus frustaciones y su ira, que tendrá un éxito arrollador.'
 		)
 	);
+	private $arrayUsuarios = array(
+		array(
+			'name' => 'Emilio',
+			'email' => 'jp12emilio@gmail.com',
+			'password' => 'usuario'
+		),
+		array(
+			'name' => 'Marcos',
+			'email' => 'marcosgarcia@gmail.com',
+			'password' => 'usuario'
+		),
+		array(
+			'name' => 'Jesus',
+			'email' => 'jesusortega@gmail.com',
+			'password' => 'usuario'
+		),
+		array(
+			'name' => 'Manueh',
+			'email' => 'manuepeña@gmail.com',
+			'password' => 'usuario'
+		)
+	);
 	/** 
 	*@return void 
 	*/
 
     public function run() {
     	self::seedCatalog();
+    	self::seedUser();
 		$this->command->info('Tabla catálogo inicializada con datos!');
     }
     private function seedCatalog(){
@@ -188,4 +212,15 @@ class DatabaseSeeder extends Seeder {
 			$p->save();
 		}
     }
+    private function seedUser(){
+    	DB::table('users')->delete();
+
+    	foreach( $this->arrayUsuarios as $usuario ) {
+			$user = new User;
+    		$user->name = $usuario['name'];
+    		$user->email = $usuario ['email'];
+    		$user->password = bcrypt($usuario ['password']);
+			$user->save();
+		} 
+	}
 }
